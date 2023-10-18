@@ -2,5 +2,5 @@
 */__pycache__/
 **/__pycache__/
 .*/
-media/*
-!media/default_avatar.png
+notes/media/*
+!notes/media/default_avatar.png

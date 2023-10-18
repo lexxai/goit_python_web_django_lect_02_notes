@@ -27,6 +27,13 @@
 
 ![](doc/detail_02.png)
 
+### PROFILES
+
+![](doc/profile_01.png)
+
+![](doc/profile_02.png)
+
+
 
 ### DOCKER
 

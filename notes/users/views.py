@@ -45,6 +45,11 @@ def logoutuser(request):
     return redirect(to='noteapp:main')
 
 
+@login_required
+def profile(request):
+    return render(request, 'users/profile.html')
+
+
 
 
 

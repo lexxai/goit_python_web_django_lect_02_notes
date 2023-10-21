@@ -48,6 +48,7 @@
                 <a href="{% url 'noteapp:delete' note.id %}" role="button" class="contrast"> Delete note </a>
                 {% else %}
                 <a href="{% url 'noteapp:detail' note.id %}" role="button" class="secondary"><s>{{ note.name }}</s></a>
+                <a href="{% url 'noteapp:delete' note.id %}" role="button" class="contrast"> Delete note </a>
                 {% endif %}
             </li>
         </ul>

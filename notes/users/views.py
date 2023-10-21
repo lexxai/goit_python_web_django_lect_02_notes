@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from .forms import ProfileForm, RegisterForm, LoginForm
+from .forms import ProfileForm, RegisterForm, LoginForm, DeleteForm
 
 
 def signupuser(request):
@@ -72,14 +72,17 @@ def deleteuser(request):
         return redirect(to="noteapp:main")
 
     if request.method == "POST":
-        form = RegisterForm(request.POST)
-        if request.user.delete():
-            messages.success(request, 'User was deleted successfully')
-            return redirect(to="noteapp:main")
+        form = DeleteForm(request.POST)
+        if form.data.get("username") == request.user.username:       
+            if request.user.delete():
+                messages.success(request, 'User was deleted successfully')
+                return redirect(to="noteapp:main")
+            else:
+                messages.error(request, 'User was not deleted')
         else:
-            messages.error(request, 'User was not deleted')
+            messages.error(request, f'User was not deleted. Data of form is wrong {form.data["username"]=}, {request.user.username=}')
 
-    return render(request, "users/delete.html", context={"form": RegisterForm(), "user":request.user })
+    return render(request, "users/delete.html", context={"form": DeleteForm(), "username":request.user })
 
 
 

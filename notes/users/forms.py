@@ -38,3 +38,13 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ["avatar"]
+
+
+class DeleteForm(forms.ModelForm):
+    username = forms.CharField(max_length=100, required=True, widget=forms.HiddenInput())
+
+    class Meta:
+        model = User
+        fields = [
+            "username",
+        ]

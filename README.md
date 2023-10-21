@@ -96,6 +96,7 @@ scipts/docker_build_docker-compose.cmd
 2. Реалізуйте можливість, окрім виведення на головній сторінці всіх нотаток, виведення лише завершених або незавершених нотаток на вибір.
 3. Реалізуйте можливість редагування та видалення тегів та окремий перегляд усіх своїх тегів.
 4. Реалізуйте можливість редагування незавершених нотаток
+5. Pagination
 
 
 #### ADDON SOLUTION 1.
@@ -124,3 +125,10 @@ scipts/docker_build_docker-compose.cmd
 ![addon_3_filter_tag](doc/addon_3_filter_tag.png)
 
 ![addon_3_edit_note_tag](doc/addon_3_edit_note_tag.png)
+
+#### ADDON SOLUTION 4.
+
+
+
+#### ADDON SOLUTION 5.
+![addon_5_page](doc/addon_5_pagination.png)

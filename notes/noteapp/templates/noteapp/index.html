@@ -74,6 +74,25 @@
             </li>
         </ul>
         {% endfor %}
+        <nav style="border-top: 2px solid; justify-content: center;">
+        {% if notes.paginator.num_pages %}
+        <div  style="padding-top: 20px;">
+            <span>
+                <a role="button" class="secondary"
+                {% if not notes.has_previous %} disabled {% endif %}  
+                href="?page={% if notes.has_previous %}{{ notes.previous_page_number }}{% endif %}  "
+                >Previous</a>
+                <span>
+                Page {{ notes.number }} of {{ notes.paginator.num_pages }}.
+                </span>
+                 <a role="button" class="secondary"
+                 {% if not notes.has_next %} disabled {% endif %}
+                 href="?page={% if notes.has_next %}{{ notes.next_page_number }}{% endif %}  "
+                 >Next</a>
+            </span>
+        </div>
+        {% endif %}
+        </nav>
     </main>
 </body>
 

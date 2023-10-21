@@ -1,16 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.paginator import Paginator
 from .models import Note, Tag
 
 from .forms import NoteForm, TagForm
 
 
+
 # Create your views here.
 
+RECORDS_PER_PAGE = 6
 
 def main(request, state: str = "", tag_id: int = 0):
-    print("main", state)
+    page_num = request.GET.get('page', 1)
     flter = state.lower().strip()
     if flter == "done":
         print("main - onlydone")
@@ -34,8 +37,15 @@ def main(request, state: str = "", tag_id: int = 0):
             else []
         )
     else:
+        queryset = Note.objects.filter(user=request.user).order_by("created").all()
+        paginator = Paginator(queryset, RECORDS_PER_PAGE)
+        try:
+            page = paginator.page(page_num)
+        except:
+            page = []
+       #  print(page)
         notes = (
-            Note.objects.filter(user=request.user).order_by("created").all()
+            page
             if request.user.is_authenticated
             else []
         )

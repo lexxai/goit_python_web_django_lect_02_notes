@@ -35,6 +35,20 @@
 
 ![](doc/profile_03.png)
 
+### DELETE USER AND AVATAR PROFILE
+
+![](doc/delete_user.png)
+
+![](doc/delete_user_form.png)
+
+![](doc/profile_avatar_t9.png)
+
+![](doc/user_was_deleted.png)
+
+![](doc/profile_avatar_t9-deleted.png)
+
+
+
 
 
 ### DOCKER

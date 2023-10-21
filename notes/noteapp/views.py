@@ -15,7 +15,7 @@ def main(request, state: str = "", tag_id: int = 0):
     if flter == "done":
         print("main - onlydone")
         notes = (
-            Note.objects.filter(done=True, user=request.user).all()
+            Note.objects.filter(done=True, user=request.user).order_by("created").all()
             if request.user.is_authenticated
             else []
         )
@@ -35,19 +35,27 @@ def main(request, state: str = "", tag_id: int = 0):
         )
     else:
         notes = (
-            Note.objects.filter(user=request.user).all()
+            Note.objects.filter(user=request.user).order_by("created").all()
             if request.user.is_authenticated
             else []
         )
+    tag_name = ""
     if tag_id:
         flter = "tag"
-    context = {"notes": notes, "filter": flter}
+        tag_name = get_object_or_404(Tag, pk=tag_id).name
+
+    context = {"notes": notes, "filter": flter, "tag": tag_name}
     return render(request, "noteapp/index.html", context=context)
 
 
 @login_required
 def set_done(request, note_id):
     Note.objects.filter(pk=note_id, user=request.user).update(done=True)
+    return redirect(to="noteapp:main")
+
+@login_required
+def set_notdone(request, note_id):
+    Note.objects.filter(pk=note_id, user=request.user).update(done=False)
     return redirect(to="noteapp:main")
 
 
@@ -105,7 +113,7 @@ def tag_delete(request, tag_id):
 
 
 @login_required
-def note(request):
+def note(request, note_id: int = 0):
     tags = Tag.objects.filter(user=request.user).all()
 
     if request.method == "POST":
@@ -143,3 +151,33 @@ def tags(request):
     )
 
     return render(request, "noteapp/tags.html", {"tags": tags})
+
+
+@login_required
+def note_edit(request, note_id: int = 0):
+    tags = Tag.objects.filter(user=request.user).all()
+    note = get_object_or_404(Note, pk=note_id, user=request.user)
+    if request.method == "GET":
+        note_tags = tags.filter(note=note_id).all()
+        print("note_edit", note_tags)
+        form = NoteForm(instance=note)
+        context = {"tags": tags, "note_tags": note_tags, "form": form}
+        return render(request, "noteapp/note.html", context)
+    elif request.method == "POST":
+        form = NoteForm(request.POST, instance=note)
+        if form.is_valid():
+            new_note = form.save(commit=False)
+            new_note.user = request.user
+            new_note.save()
+
+            choice_tags = Tag.objects.filter(
+                name__in=request.POST.getlist("tags"), user=request.user
+            )
+            for tag in choice_tags.iterator():
+                new_note.tags.add(tag)
+
+            return redirect(to="noteapp:main")
+        else:
+            return render(request, "noteapp/note.html", {"tags": tags, "form": form})
+
+    return render(request, "noteapp/note.html", {"tags": tags, "form": NoteForm()})

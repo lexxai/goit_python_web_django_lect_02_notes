@@ -122,3 +122,5 @@ scipts/docker_build_docker-compose.cmd
 ![addon_3_edit](doc/addon_3_edit.png)
 
 ![addon_3_filter_tag](doc/addon_3_filter_tag.png)
+
+![addon_3_edit_note_tag](doc/addon_3_edit_note_tag.png)

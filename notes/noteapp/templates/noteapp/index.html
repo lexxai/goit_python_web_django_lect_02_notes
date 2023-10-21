@@ -19,7 +19,7 @@
             <ul>
                 <li>Filter by:</li>
                 {% if filter == "tag" %}
-                    <li><a href="{% url 'noteapp:main'  %}" role="button">Tag</a></li>
+                    <li><a href="{% url 'noteapp:main'  %}" role="button">Tag: {{ tag }}</a></li>
                 {% else %}
                     <li><a href="{% url 'noteapp:filter' 'done' %}" role="button"
                     {% if filter == "done" %}
@@ -64,12 +64,13 @@
             <li>
                 {% if not note.done %}
                 <a href="{% url 'noteapp:detail' note.id %}" role="button" class="outline"> {{ note.name }} </a>
-                <a href="{% url 'noteapp:set_done' note.id %}" role="button"> Mark Done </a>
-                <a href="{% url 'noteapp:delete' note.id %}" role="button" class="contrast"> Delete note </a>
+                <a href="{% url 'noteapp:set_done' note.id %}" role="button">Mark Done</a>
                 {% else %}
                 <a href="{% url 'noteapp:detail' note.id %}" role="button" class="secondary"><s>{{ note.name }}</s></a>
-                <a href="{% url 'noteapp:delete' note.id %}" role="button" class="contrast"> Delete note </a>
+                <a href="{% url 'noteapp:set_notdone' note.id %}" role="button">Mark not done</a>
                 {% endif %}
+                <a href="{% url 'noteapp:note_edit' note.id %}" role="button" class="secondary"> Edit note </a>
+                <a href="{% url 'noteapp:delete' note.id %}" role="button" class="contrast"> Delete note </a>
             </li>
         </ul>
         {% endfor %}

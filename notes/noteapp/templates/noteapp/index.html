@@ -8,15 +8,31 @@
 </head>
 
 <body>
-    <main class="container">
-
-
+    <main class="container" style="padding: 0;">
 
         <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
             {% if user.is_authenticated %}
             <ul>
                 <li><a href="{% url 'noteapp:note' %}" role="button">Add note</a></li>
                 <li><a href="{% url 'noteapp:tag' %}" role="button">Add Tag</a></li>
+            </ul>
+            <ul>
+                <li>Filter by:</li>
+                <li><a href="{% url 'noteapp:filter' 'done' %}" role="button"
+                {% if filter == "done" %}
+                    class="secondary"
+                {% endif %}
+                >done</a></li>
+                <li><a href="{% url 'noteapp:filter' 'notdone' %}" role="button"
+                {% if filter == "notdone" %}
+                    class="secondary"
+                {% endif %}
+                >not done</a></li>
+                <li><a href="{% url 'noteapp:main' %}" role="button"
+                {% if filter == "" %}
+                    class="secondary"
+                {% endif %}
+                >none</a></li>
             </ul>
             <ul>
                 <li>Welcome <b>{{ user.username }}!</b></li>

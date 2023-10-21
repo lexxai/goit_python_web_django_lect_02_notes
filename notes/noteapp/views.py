@@ -9,13 +9,31 @@ from .forms import NoteForm, TagForm
 # Create your views here.
 
 
-def main(request):
-    notes = (
-        Note.objects.filter(user=request.user).all()
-        if request.user.is_authenticated
-        else []
-    )
-    return render(request, "noteapp/index.html", {"notes": notes})
+def main(request, state: str=""):
+    print("main", state)
+    flter = state.lower().strip()
+    if flter == 'done':
+        print("main - onlydone")
+        notes = (
+            Note.objects.filter(done=True, user=request.user).all()
+            if request.user.is_authenticated
+            else []
+        )
+    elif state.lower().strip() == 'notdone':
+        print("main - onlynotdone")
+        notes = (
+            Note.objects.filter(done=False, user=request.user).all()
+            if request.user.is_authenticated
+            else []
+        )
+    else:
+        notes = (
+            Note.objects.filter(user=request.user).all()
+            if request.user.is_authenticated
+            else []
+        )
+
+    return render(request, "noteapp/index.html", {"notes": notes, "filter": flter})
 
 
 @login_required

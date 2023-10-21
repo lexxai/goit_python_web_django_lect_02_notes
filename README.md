@@ -102,13 +102,18 @@ scipts/docker_build_docker-compose.cmd
 
  ![before_addon_1](doc/addon_1_before.png)
 
- ![before_addon_1](doc/addon_1_after.png)
+ ![after_addon_1](doc/addon_1_after.png)
 
- ![before_addon_1](doc/addon_1_after_del.png)
-
-
+ ![after_del_addon_1](doc/addon_1_after_del.png)
 
 
+#### ADDON SOLUTION 2.
+
+![addon_2_all](doc/addon_2_all.png)
+
+![addon_2_done](doc/addon_2_done.png)
+
+![addon_2_not_done](doc/addon_2_not_done.png)
 
 
 

@@ -2,6 +2,7 @@
 
 {% block content %}
 
+
 <div>
     <h1>Profile page: {{user.username}}</h1>
     <img src="{{ user.profile.avatar.url }}" alt="avatar of user"/>
@@ -32,5 +33,9 @@
     </div>
 
 </form>
+
+<nav>
+    <a role="button" href="{% url 'users:delete' %}">DELETE USER</a>
+</nav>
 
 {% endblock content %}

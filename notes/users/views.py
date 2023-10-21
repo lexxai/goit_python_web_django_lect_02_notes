@@ -14,11 +14,13 @@ def signupuser(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect(to="noteapp:main")
+            return redirect(to="users:login")
         else:
             return render(request, "users/signup.html", context={"form": form})
 
     return render(request, "users/signup.html", context={"form": RegisterForm()})
+
+
 
 
 def loginuser(request):
@@ -45,9 +47,10 @@ def logoutuser(request):
     return redirect(to='noteapp:main')
 
 
-@login_required
-def profile(request):
-    return render(request, 'users/profile.html')
+# @login_required
+# def profile(request):
+#     return render(request, 'users/profile.html')
+
 
 
 @login_required
@@ -63,6 +66,20 @@ def profile(request):
     return render(request, 'users/profile.html', {'profile_form': profile_form})
 
 
+@login_required
+def deleteuser(request):
+    if not request.user.is_authenticated:
+        return redirect(to="noteapp:main")
+
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if request.user.delete():
+            messages.success(request, 'User was deleted successfully')
+            return redirect(to="noteapp:main")
+        else:
+            messages.error(request, 'User was not deleted')
+
+    return render(request, "users/delete.html", context={"form": RegisterForm(), "user":request.user })
 
 
 

@@ -1,0 +1,28 @@
+{% extends "noteapp/base.html" %}
+
+{% block content %}
+
+{% if messages %}
+<div>
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert-{{ message.tags }}" {% endif %}>{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<form action="{% url 'users:delete' %}" method="post">
+    {% csrf_token %}
+    </div>
+
+    <div class="alert-warning">
+        Will be deleted this user: "{{ user }}".
+    </div>
+
+
+    <div class="grid">
+        <button type="submit">Confirm to DELETE</button>
+        <button type="reset" class="secondary">Reset</button>
+    </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Organizer</title>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css" />
+</head>
+
+<body>
+    <main class="container" style="padding: 0;">
+
+        <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
+            {% if user.is_authenticated %}
+            <ul>
+                <li><a href="{% url 'noteapp:main' %}" role="button">Main page</a></li>
+                <li><a href="{% url 'noteapp:tag' %}" role="button">Add Tag</a></li>
+            </ul>
+            <ul>
+                <li>Welcome <b>{{ user.username }}!</b></li>
+                <li><a href="{% url 'users:profile' %}" role="button">Profile</a></li>
+                <li><a href="{% url 'users:logout' %}" role="button">Logout</a></li>
+            </ul>
+            {% else %}
+            <ul>
+                <li><a href="{% url 'users:signup' %}" role="button">Sign Up</a></li>
+                <li><a href="{% url 'users:login' %}" role="button">Login</a></li>
+            </ul>
+            {% endif %}
+        </nav>
+
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+            <div {% if message.tags %} class="alert-{{ message.tags }}" {% endif %}>{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <table role="grid">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name / Detail</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tag in tags %}
+            <tr>
+                <th scope="row">{{ tag.id }} </th>
+                <td><a href="{% url 'noteapp:filter_tag' tag.id %}" role="button" class="outline"> {{ tag.name }} </a></td>
+                <td>
+                    <a href="{% url 'noteapp:tag_edit' tag.id %}" role="button"> Edit tag </a>
+                    <a href="{% url 'noteapp:tag_delete' tag.id %}" role="button" class="contrast"> Delete tag </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    </main>
+
+</body>
+
+</html>

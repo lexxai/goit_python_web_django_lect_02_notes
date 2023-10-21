@@ -1,4 +1,4 @@
-from django.forms import ModelForm, CharField, TextInput
+from django.forms import ModelForm, CharField, TextInput, HiddenInput
 from .models import Note, Tag
 
 class TagForm(ModelForm):
@@ -7,8 +7,8 @@ class TagForm(ModelForm):
     class Meta:
         model = Tag
         fields = ['name']
-        
 
+        
 class NoteForm(ModelForm):
 
     name = CharField(min_length=5, max_length=50, required=True, widget=TextInput())

@@ -14,25 +14,29 @@
             {% if user.is_authenticated %}
             <ul>
                 <li><a href="{% url 'noteapp:note' %}" role="button">Add note</a></li>
-                <li><a href="{% url 'noteapp:tag' %}" role="button">Add Tag</a></li>
+                <li><a href="{% url 'noteapp:tags' %}" role="button">Tags</a></li>
             </ul>
             <ul>
                 <li>Filter by:</li>
-                <li><a href="{% url 'noteapp:filter' 'done' %}" role="button"
-                {% if filter == "done" %}
-                    class="secondary"
+                {% if filter == "tag" %}
+                    <li><a href="{% url 'noteapp:main'  %}" role="button">Tag</a></li>
+                {% else %}
+                    <li><a href="{% url 'noteapp:filter' 'done' %}" role="button"
+                    {% if filter == "done" %}
+                        class="secondary"
+                    {% endif %}
+                    >done</a></li>
+                    <li><a href="{% url 'noteapp:filter' 'notdone' %}" role="button"
+                    {% if filter == "notdone" %}
+                        class="secondary"
+                    {% endif %}
+                    >not done</a></li>
+                    <li><a href="{% url 'noteapp:main' %}" role="button"
+                    {% if filter == "" %}
+                        class="secondary"
+                    {% endif %}
+                    >none</a></li>
                 {% endif %}
-                >done</a></li>
-                <li><a href="{% url 'noteapp:filter' 'notdone' %}" role="button"
-                {% if filter == "notdone" %}
-                    class="secondary"
-                {% endif %}
-                >not done</a></li>
-                <li><a href="{% url 'noteapp:main' %}" role="button"
-                {% if filter == "" %}
-                    class="secondary"
-                {% endif %}
-                >none</a></li>
             </ul>
             <ul>
                 <li>Welcome <b>{{ user.username }}!</b></li>

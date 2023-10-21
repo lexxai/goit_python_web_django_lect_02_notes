@@ -63,10 +63,10 @@
         <ul>
             <li>
                 {% if not note.done %}
-                <a href="{% url 'noteapp:detail' note.id %}" role="button" class="outline"> {{ note.name }} </a>
+                <a href="{% url 'noteapp:detail' note.id %}?page={{ page_num }}" role="button" class="outline"> {{ note.name }} </a>
                 <a href="{% url 'noteapp:set_done' note.id %}" role="button">Mark Done</a>
                 {% else %}
-                <a href="{% url 'noteapp:detail' note.id %}" role="button" class="secondary"><s>{{ note.name }}</s></a>
+                <a href="{% url 'noteapp:detail' note.id %}?page={{ page_num }}" role="button" class="secondary"><s>{{ note.name }}</s></a>
                 <a href="{% url 'noteapp:set_notdone' note.id %}" role="button">Mark not done</a>
                 {% endif %}
                 <a href="{% url 'noteapp:note_edit' note.id %}" role="button" class="secondary"> Edit note </a>
@@ -75,7 +75,7 @@
         </ul>
         {% endfor %}
         <nav style="border-top: 2px solid; justify-content: center;">
-        {% if notes.paginator.num_pages %}
+        {% if notes.paginator.num_pages > 1 %}
         <div  style="padding-top: 20px;">
             <span>
                 <a role="button" class="secondary"

@@ -12,38 +12,61 @@ from .forms import NoteForm, TagForm
 
 RECORDS_PER_PAGE = 6
 
-def main(request, state: str = "", tag_id: int = 0):
+def main(request, state: str = "", tag_id: int = 0, page:int = 1):
     page_num = request.GET.get('page', 1)
+    try:
+        page_num = int(page_num)
+    except ValueError:
+        page_num = 1
     flter = state.lower().strip()
     if flter == "done":
-        print("main - onlydone")
+        queryset = Note.objects.filter(done=True, user=request.user).order_by("created").all()
+        paginator = Paginator(queryset, RECORDS_PER_PAGE)
+        page_num =  page_num if page_num <= paginator.num_pages else 1 
+        try:
+            page = paginator.page(page_num)
+        except:
+            page = []
         notes = (
-            Note.objects.filter(done=True, user=request.user).order_by("created").all()
+            page
             if request.user.is_authenticated
             else []
         )
     elif flter == "notdone":
-        print("main - onlynotdone")
+        queryset = Note.objects.filter(done=False, user=request.user).all()
+        paginator = Paginator(queryset, RECORDS_PER_PAGE)
+        page_num =  page_num if page_num <= paginator.num_pages else 1 
+        try:
+            page = paginator.page(page_num)
+        except:
+            page = []
         notes = (
-            Note.objects.filter(done=False, user=request.user).all()
+            page
             if request.user.is_authenticated
             else []
         )
     elif tag_id:
         tag = tag_id
+        queryset = Note.objects.filter(user=request.user, tags=int(tag)).all()
+        paginator = Paginator(queryset, RECORDS_PER_PAGE)
+        page_num =  page_num if page_num <= paginator.num_pages else 1 
+        try:
+            page = paginator.page(page_num)
+        except:
+            page = []
         notes = (
-            Note.objects.filter(user=request.user, tags=int(tag)).all()
+            page
             if request.user.is_authenticated
             else []
         )
     else:
         queryset = Note.objects.filter(user=request.user).order_by("created").all()
         paginator = Paginator(queryset, RECORDS_PER_PAGE)
+        page_num =  page_num if page_num <= paginator.num_pages else 1 
         try:
             page = paginator.page(page_num)
         except:
             page = []
-       #  print(page)
         notes = (
             page
             if request.user.is_authenticated
@@ -54,7 +77,7 @@ def main(request, state: str = "", tag_id: int = 0):
         flter = "tag"
         tag_name = get_object_or_404(Tag, pk=tag_id).name
 
-    context = {"notes": notes, "filter": flter, "tag": tag_name}
+    context = {"notes": notes, "filter": flter, "tag": tag_name, "page_num": page_num}
     return render(request, "noteapp/index.html", context=context)
 
 
@@ -147,9 +170,10 @@ def note(request, note_id: int = 0):
 
 
 @login_required
-def detail(request, note_id):
+def detail(request, note_id, page: int = 1):
+    page_num = request.GET.get('page', 1)
     note = get_object_or_404(Note, pk=note_id, user=request.user)
-    return render(request, "noteapp/detail.html", {"note": note})
+    return render(request, "noteapp/detail.html", {"note": note, "page_num": page_num})
 
 
 @login_required

@@ -116,7 +116,7 @@ scipts/docker_build_docker-compose.cmd
 
 ![addon_2_not_done](doc/addon_2_not_done.png)
 
-#### ADDON SOLUTION 3.
+#### ADDON SOLUTION 3, 4.
 
 ![addon_3_list](doc/addon_3_list.png)
 
@@ -125,9 +125,6 @@ scipts/docker_build_docker-compose.cmd
 ![addon_3_filter_tag](doc/addon_3_filter_tag.png)
 
 ![addon_3_edit_note_tag](doc/addon_3_edit_note_tag.png)
-
-#### ADDON SOLUTION 4.
-
 
 
 #### ADDON SOLUTION 5.

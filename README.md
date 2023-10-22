@@ -129,3 +129,31 @@ scipts/docker_build_docker-compose.cmd
 
 #### ADDON SOLUTION 5.
 ![addon_5_page](doc/addon_5_pagination.png)
+
+```
+view.py:
+.....
+queryset = Note.objects.filter(user=request.user).order_by("created").all()
+paginator = Paginator(queryset, RECORDS_PER_PAGE)
+page = paginator.page(page_num)
+notes = (
+            page
+            if request.user.is_authenticated
+            else []
+        )
+context = {"notes": notes,  "page_num": page_num}
+return render(request, "noteapp/index.html", context=context)
+```
+
+SQL page 1: LIMIT 6
+```
+(0.000) SELECT COUNT(*) AS "__count" FROM "noteapp_note" WHERE "noteapp_note"."user_id" = 2; args=(2,); alias=default
+(0.000) SELECT "noteapp_note"."id", "noteapp_note"."name", "noteapp_note"."description", "noteapp_note"."done", "noteapp_note"."created", "noteapp_note"."user_id" FROM "noteapp_note" WHERE "noteapp_note"."user_id" = 2 ORDER BY "noteapp_note"."created" ASC LIMIT 6; args=(2,); alias=default
+```
+
+SQL page 2: LIMIT 2 OFFSET 6
+```
+(0.000) SELECT COUNT(*) AS "__count" FROM "noteapp_note" WHERE "noteapp_note"."user_id" = 2; args=(2,); alias=default
+(0.000) SELECT "noteapp_note"."id", "noteapp_note"."name", "noteapp_note"."description", "noteapp_note"."done", "noteapp_note"."created", "noteapp_note"."user_id" FROM "noteapp_note" WHERE "noteapp_note"."user_id" = 2 ORDER BY "noteapp_note"."created" ASC LIMIT 2 OFFSET 6; args=(2,); alias=default
+```
+![addon_5_page](doc/addon_5_pagination_2.png)

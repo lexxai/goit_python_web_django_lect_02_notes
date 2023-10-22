@@ -39,19 +39,19 @@
         <table role="grid">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name / Detail</th>
+                <th scope="col">Name / Notes</th>
+                <th scope="col">Count notes</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
         {% for tag in tags %}
             <tr>
-                <th scope="row">{{ tag.id }} </th>
-                <td><a href="{% url 'noteapp:filter_tag' tag.id %}" role="button" class="outline"> {{ tag.name }} </a></td>
+                <th scope="row"><a href="{% url 'noteapp:filter_tag' tag.id %}" role="button" class="outline"> {{ tag.name }} </a></th>
+                <td>{{ tag.note__count }}</td>
                 <td>
                     <a href="{% url 'noteapp:tag_edit' tag.id %}" role="button"> Edit tag </a>
-                    <a href="{% url 'noteapp:tag_delete' tag.id %}" role="button" class="contrast"> Delete tag </a>
+                    <a href="{% url 'noteapp:tag_delete' tag.id %}" role="button" class="contrast">Delete tag</a>
                 </td>
             </tr>
         {% endfor %}

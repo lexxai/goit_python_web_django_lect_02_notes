@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
-from .models import Note, Tag
+from django.db.models import Count
 
+from .models import Note, Tag
 from .forms import NoteForm, TagForm
 
 
@@ -28,10 +29,10 @@ def main(request, state: str = "", tag_id: int = 0, page:int = 1):
     if flter == "done":
         queryset = Note.objects.filter(done=True, user=request.user).order_by("created").all()
     elif flter == "notdone":
-        queryset = Note.objects.filter(done=False, user=request.user).all()
+        queryset = Note.objects.filter(done=False, user=request.user).order_by("created").all()
     elif tag_id:
         tag = tag_id
-        queryset = Note.objects.filter(user=request.user, tags=int(tag)).all()
+        queryset = Note.objects.filter(user=request.user, tags=int(tag)).order_by("created").all()
     else:
         queryset = Note.objects.filter(user=request.user).order_by("created").all()
 
@@ -153,13 +154,10 @@ def detail(request, note_id, page: int = 1):
 
 @login_required
 def tags(request):
-    tags = (
-        Tag.objects.filter(user=request.user).all()
-        if request.user.is_authenticated
-        else []
-    )
-
-    return render(request, "noteapp/tags.html", {"tags": tags})
+    # tags = Tag.objects.filter(user=request.user).all()
+    tags = Tag.objects.filter(user=request.user).annotate(Count("note")).order_by("-note__count")
+    context = {"tags": tags}
+    return render(request, "noteapp/tags.html", context)
 
 
 @login_required

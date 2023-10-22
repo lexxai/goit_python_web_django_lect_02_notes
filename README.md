@@ -97,6 +97,7 @@ scipts/docker_build_docker-compose.cmd
 3. Реалізуйте можливість редагування та видалення тегів та окремий перегляд усіх своїх тегів.
 4. Реалізуйте можливість редагування незавершених нотаток
 5. Pagination
+6. Count notes with tag
 
 
 #### ADDON SOLUTION 1.
@@ -128,7 +129,7 @@ scipts/docker_build_docker-compose.cmd
 
 
 #### ADDON SOLUTION 5.
-![addon_5_page](doc/addon_5_pagination.png)
+![addon_5_page_1](doc/addon_5_pagination.png)
 
 ```
 view.py:
@@ -156,4 +157,25 @@ SQL page 2: LIMIT 2 OFFSET 6
 (0.000) SELECT COUNT(*) AS "__count" FROM "noteapp_note" WHERE "noteapp_note"."user_id" = 2; args=(2,); alias=default
 (0.000) SELECT "noteapp_note"."id", "noteapp_note"."name", "noteapp_note"."description", "noteapp_note"."done", "noteapp_note"."created", "noteapp_note"."user_id" FROM "noteapp_note" WHERE "noteapp_note"."user_id" = 2 ORDER BY "noteapp_note"."created" ASC LIMIT 2 OFFSET 6; args=(2,); alias=default
 ```
-![addon_5_page](doc/addon_5_pagination_2.png)
+![addon_5_page_2](doc/addon_5_pagination_2.png)
+
+
+#### ADDON SOLUTION 6.
+![addon_6](doc/addon_6_count_tag_in_notes.png)
+
+ORM:
+```
+@login_required
+def tags(request):
+    tags = Tag.objects.filter(user=request.user).annotate(Count("note")).order_by("-note__count")
+    context = {"tags": tags}
+    return render(request, "noteapp/tags.html", context)
+```
+
+
+SQL:
+```
+(0.015) SELECT "noteapp_tag"."id", "noteapp_tag"."name", "noteapp_tag"."user_id", COUNT("noteapp_note_tags"."note_id") AS "note__count" FROM "noteapp_tag" LEFT OUTER JOIN "noteapp_note_tags" ON ("noteapp_tag"."id" = "noteapp_note_tags"."tag_id") WHERE "noteapp_tag"."user_id" = 2 GROUP BY "noteapp_tag"."id" ORDER BY 4 DESC; args=(2,); alias=default
+
+```
+

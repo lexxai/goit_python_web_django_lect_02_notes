@@ -70,7 +70,8 @@
                 <a href="{% url 'noteapp:set_notdone' note.id %}" role="button">Mark not done</a>
                 {% endif %}
                 <a href="{% url 'noteapp:note_edit' note.id %}" role="button" class="secondary"> Edit note </a>
-                <a href="{% url 'noteapp:delete' note.id %}" role="button" class="contrast"> Delete note </a>
+                <a href="{% url 'noteapp:delete' note.id %}" role="button" class="contrast"
+                data-target="modal-example" onClick="toggleModal(event)"> Delete note </a>
             </li>
         </ul>
         {% endfor %}
@@ -93,6 +94,37 @@
         </div>
         {% endif %}
         </nav>
+<dialog id="modal-example">
+        <article>
+            <a href="#close"
+            aria-label="Close"
+            class="close"
+            data-target="modal-example"
+            onClick="toggleModal(event)">
+            </a>
+            <h3>Confirm your action!</h3>
+            <p>
+            Your action may result in the deletion of records. Are you sure?
+            </p>
+            <footer>
+            <a href="#cancel"
+                role="button"
+                class="secondary"
+                data-target="modal-example"
+                onClick="toggleModal(event)">
+                Cancel
+            </a>
+            <a href="#"
+                role="button"
+                data-target=""
+                onClick="onConfiramtion()">
+                Confirm
+            </a>
+            </footer>
+        </article>
+</dialog>
+    <!-- Modal -->
+    <script src="/static/noteapp/js/modal.js"></script>
     </main>
 </body>
 

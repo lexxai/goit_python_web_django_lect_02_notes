@@ -44,11 +44,14 @@ def main(request, state: str = "", tag_id: int = 0, page:int = 1):
         except:
             page = []
         notes = page
-
+    
     tag_name = ""
     if tag_id:
         flter = "tag"
         tag_name = get_object_or_404(Tag, pk=tag_id).name
+
+    if not notes:
+        messages.info(request, "Notes not found.")
 
     context = {"notes": notes, "filter": flter, "tag": tag_name, "page_num": page_num}
     return render(request, "noteapp/index.html", context=context)

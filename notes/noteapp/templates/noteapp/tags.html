@@ -47,18 +47,49 @@
         <tbody>
         {% for tag in tags %}
             <tr>
-                <th scope="row"><a href="{% url 'noteapp:filter_tag' tag.id %}" role="button" class="outline"> {{ tag.name }} </a></th>
-                <td>{{ tag.note__count }}</td>
+                <th scope="row"><a href="{% url 'noteapp:filter_tag' tag.id %}" data-tooltip="Click to find all notes with tag: {{ tag.name }}"  role="button" class="outline"> {{ tag.name }} </a></th>
+                <td><a href="#" data-tooltip="Found total notes with tag: {{ tag.name }}">  {{ tag.note__count }}</a></td>
                 <td>
-                    <a href="{% url 'noteapp:tag_edit' tag.id %}" role="button"> Edit tag </a>
-                    <a href="{% url 'noteapp:tag_delete' tag.id %}" role="button" class="contrast">Delete tag</a>
+                    <a href="{% url 'noteapp:tag_edit' tag.id %}" role="button">Edit tag</a>
+                    <a href="{% url 'noteapp:tag_delete' tag.id %}" role="button" class="contrast"
+                       data-target="modal-example" onClick="toggleModal(event)">Delete tag</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
         </table>
+        <dialog id="modal-example">
+        <article>
+            <a href="#close"
+            aria-label="Close"
+            class="close"
+            data-target="modal-example"
+            onClick="toggleModal(event)">
+            </a>
+            <h3>Confirm your action!</h3>
+            <p>
+            Your action may result in the deletion of records. Are you sure?
+            </p>
+            <footer>
+            <a href="#cancel"
+                role="button"
+                class="secondary"
+                data-target="modal-example"
+                onClick="toggleModal(event)">
+                Cancel
+            </a>
+            <a href="#"
+                role="button"
+                data-target=""
+                onClick="onConfiramtion()">
+                Confirm
+            </a>
+            </footer>
+        </article>
+        </dialog>
     </main>
-
+    <!-- Modal -->
+    <script src="/static/noteapp/js/modal.js"></script>
 </body>
 
 </html>

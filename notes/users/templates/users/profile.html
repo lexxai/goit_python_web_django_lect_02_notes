@@ -35,7 +35,39 @@
 </form>
 
 <nav>
-    <a role="button" href="{% url 'users:delete' %}">DELETE USER</a>
+    <a role="button"  class="contrast" href="{% url 'users:delete' %}" 
+    data-target="modal-example" onClick="toggleModal(event)">DELETE USER</a>
 </nav>
+<dialog id="modal-example">
+        <article>
+            <a href="#close"
+            aria-label="Close"
+            class="close"
+            data-target="modal-example"
+            onClick="toggleModal(event)">
+            </a>
+            <h3>Confirm your action!</h3>
+            <p>
+            Your action may result in the deletion of records. Are you sure?
+            </p>
+            <footer>
+            <a href="#cancel"
+                role="button"
+                class="secondary"
+                data-target="modal-example"
+                onClick="toggleModal(event)">
+                Cancel
+            </a>
+            <a href="#"
+                role="button"
+                data-target=""
+                onClick="onConfiramtion()">
+                Confirm
+            </a>
+            </footer>
+        </article>
+</dialog>
+    <!-- Modal -->
+    <script src="/static/noteapp/js/modal.js"></script>
 
 {% endblock content %}

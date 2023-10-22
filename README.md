@@ -98,6 +98,7 @@ scipts/docker_build_docker-compose.cmd
 4. Реалізуйте можливість редагування незавершених нотаток
 5. Pagination
 6. Count notes with tag
+7. Confirm action modal JS.
 
 
 #### ADDON SOLUTION 1.
@@ -179,3 +180,5 @@ SQL:
 
 ```
 
+#### ADDON SOLUTION 7.
+![addon_7](doc/addon_7_confirm.png)

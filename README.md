@@ -86,6 +86,23 @@ scipts/docker_build_docker-compose.cmd
 
 ![](doc/docker_02.png)
 
+#### DOCKER RUN COMPOSE WITH HUB IMAGE
+
+copy 2 files to your folder:
+- docker-compose.yml
+- .env
+
+Run in console:
+
+- ```docker compose pull```
+- ```docker compose up -d```
+
+![docker_composer](doc/docker_composer_01.png)
+
+open in browser http://localhost:8000
+
+#### DOCKER HUB IMAGE
+https://hub.docker.com/repository/docker/lexxai/goit_web_lect_10_02_notes
 
 
 ### ADDON

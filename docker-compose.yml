@@ -3,13 +3,16 @@ name: lect_10_02_notes
 services:
   pg:
     image: postgres
-    ports:
-      - "5432:5432"
+    expose:
+      - "5432"
+    # ports:
+    #   - "5432:5432"
     env_file:
       - ./.env
 
   code :
     build: ./
+    image: lexxai/goit_web_lect_10_02_notes:latest
     ports:
       - "8000:8000"
     env_file:

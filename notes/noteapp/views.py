@@ -26,27 +26,24 @@ def get_page_num(request):
 def main(request, state: str = "", tag_id: int = 0, page:int = 1):
     page_num =  get_page_num(request)
     flter = state.lower().strip()
-    if flter == "done":
-        queryset = Note.objects.filter(done=True, user=request.user).order_by("created").all()
-    elif flter == "notdone":
-        queryset = Note.objects.filter(done=False, user=request.user).order_by("created").all()
-    elif tag_id:
-        tag = tag_id
-        queryset = Note.objects.filter(user=request.user, tags=int(tag)).order_by("created").all()
-    else:
-        queryset = Note.objects.filter(user=request.user).order_by("created").all()
+    notes = []
+    if request.user.is_authenticated:
+        if flter == "done":
+            queryset = Note.objects.filter(done=True, user=request.user).order_by("created").all()
+        elif flter == "notdone":
+            queryset = Note.objects.filter(done=False, user=request.user).order_by("created").all()
+        elif tag_id:
+            queryset = Note.objects.filter(user=request.user, tags=int(tag_id)).order_by("created").all()
+        else:
+            queryset = Note.objects.filter(user=request.user).order_by("created").all()
 
-    paginator = Paginator(queryset, RECORDS_PER_PAGE)
-    page_num =  page_num if page_num <= paginator.num_pages else 1 
-    try:
-        page = paginator.page(page_num)
-    except:
-        page = []
-    notes = (
-        page
-        if request.user.is_authenticated
-        else []
-    )
+        paginator = Paginator(queryset, RECORDS_PER_PAGE)
+        page_num =  page_num if page_num <= paginator.num_pages else 1 
+        try:
+            page = paginator.page(page_num)
+        except:
+            page = []
+        notes = page
 
     tag_name = ""
     if tag_id:

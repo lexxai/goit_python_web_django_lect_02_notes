@@ -14,18 +14,27 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-MEDIA_ROOT = BASE_DIR / 'media'
-MEDIA_URL = '/media/'
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+if not os.getenv("SECRET_KEY"):
+    load_dotenv(BASE_DIR.parent.joinpath('.env'))
+    SECRET_KEY = os.getenv("SECRET_KEY")
+
+assert SECRET_KEY is not None, "ENVIROMENT NOT SET"
+
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/media/"
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-*&af@8so2^humwnzi7wk^#z6p-6$mnpe(g(8%=djywwe46=r8^"
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -143,7 +152,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.getenv("MAIL_SERVER", "smtp.meta.ua")
 EMAIL_PORT = int(os.getenv("MAIL_PORT", 465))
 EMAIL_STARTTLS = False
@@ -155,23 +164,23 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # logging
 LOGGING = {
-    'version': 1,
-    'filters': {
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
+    "version": 1,
+    "filters": {
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
         }
     },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "filters": ["require_debug_true"],
+            "class": "logging.StreamHandler",
         }
     },
-    'loggers': {
-        'django.db.backends': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
+    "loggers": {
+        "django.db.backends": {
+            "level": "DEBUG",
+            "handlers": ["console"],
         }
-    }
+    },
 }

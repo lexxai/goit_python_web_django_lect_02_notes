@@ -199,3 +199,20 @@ SQL:
 
 #### ADDON SOLUTION 7.
 ![addon_7](doc/addon_7_confirm.png)
+
+
+
+
+## RESET PASSWORD
+
+![](doc/reset-password-forgot.png)
+
+![](doc/reset-password-req.png)
+
+![](doc/reset-password-req_sent.png)
+
+![](doc/reset-password-email.png)
+
+![](doc/reset-password-new-pwd.png)
+
+![](doc/reset-password-completed.png)

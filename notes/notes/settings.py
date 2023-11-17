@@ -163,8 +163,8 @@ EMAIL_HOST_PASSWORD = os.getenv("MAIL_PASSWORD", "yourpassword")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
-LOGOUT_REDIRECT_URL = "/"
-LOGIN_URL = "/users/login"
+LOGOUT_REDIRECT_URL = "noteapp:main"
+LOGIN_URL = "users:login"
 
 # logging
 LOGGING = {

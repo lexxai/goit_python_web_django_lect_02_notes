@@ -162,6 +162,10 @@ EMAIL_HOST_USER = os.getenv("MAIL_USERNAME", "youruser@meta.ua")
 EMAIL_HOST_PASSWORD = os.getenv("MAIL_PASSWORD", "yourpassword")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+
+LOGOUT_REDIRECT_URL = "noteapp:main"
+LOGIN_URL = "users:login"
+
 # logging
 LOGGING = {
     "version": 1,

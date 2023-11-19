@@ -11,18 +11,22 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from dotenv import load_dotenv
-import os
+# from dotenv import load_dotenv
+# import os
 
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+env = environ.Env()
+environ.Env.read_env(BASE_DIR.parent.joinpath('.env'))
 
-SECRET_KEY = os.getenv("SECRET_KEY")
 
-if not os.getenv("SECRET_KEY"):
-    load_dotenv(BASE_DIR.parent.joinpath('.env'))
-    SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY")
+
+# if not env("SECRET_KEY"):
+#     load_dotenv(BASE_DIR.parent.joinpath('.env'))
+#     SECRET_KEY = env("SECRET_KEY")
 
 assert SECRET_KEY is not None, "ENVIROMENT NOT SET"
 
@@ -96,8 +100,8 @@ WSGI_APPLICATION = "notes.wsgi.application"
 #     }
 # }
 
-POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "567234")
-POSTGRES_HOST = os.getenv("POSTGRES_HOST", "127.0.0.1")
+POSTGRES_PASSWORD = env("POSTGRES_PASSWORD")
+POSTGRES_HOST = env("POSTGRES_HOST")
 
 DATABASES = {
     "default": {
@@ -153,13 +157,13 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = os.getenv("MAIL_SERVER", "smtp.meta.ua")
-EMAIL_PORT = int(os.getenv("MAIL_PORT", 465))
+EMAIL_HOST = env("MAIL_SERVER")
+EMAIL_PORT = int(env("MAIL_PORT"))
 EMAIL_STARTTLS = False
 EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
-EMAIL_HOST_USER = os.getenv("MAIL_USERNAME", "youruser@meta.ua")
-EMAIL_HOST_PASSWORD = os.getenv("MAIL_PASSWORD", "yourpassword")
+EMAIL_HOST_USER = env("MAIL_USERNAME")
+EMAIL_HOST_PASSWORD = env("MAIL_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
